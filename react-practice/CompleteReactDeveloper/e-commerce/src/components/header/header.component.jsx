@@ -7,11 +7,12 @@ import CartIcon from '../cart-icon/cart-icon.component';
 import CartDropdown from '../cart-dropdown/cart-dropdown.component';
 
 import { ReactComponent as Logo } from '../../assets/crown.svg';
+
 import './header.styles.scss';
 
 const Header = ({ currentUser, hidden }) => (
-  <div className="header">
-    <Link to='/'>
+  <div className='header'>
+    <Link className='logo-container' to='/'>
       <Logo className='logo' />
     </Link>
     <div className='options'>
@@ -21,22 +22,24 @@ const Header = ({ currentUser, hidden }) => (
       <Link className='option' to='/shop'>
         CONTACT
       </Link>
-      {
-        currentUser ?
+      {currentUser ? (
         <div className='option' onClick={() => auth.signOut()}>
           SIGN OUT
-        </div> 
-        : 
-        <Link className='option' to='/signin'>SIGN IN</Link>
-      }
+        </div>
+      ) : (
+        <Link className='option' to='/signin'>
+          SIGN IN
+        </Link>
+      )}
       <CartIcon />
     </div>
-    { hidden ? null : <CartDropdown /> }
+    {hidden ? null : <CartDropdown />}
   </div>
 );
 
-const mapStateToProps = ({user: { currentUser }, cart: { hidden }}) => ({
-  currentUser, hidden
-}); 
+const mapStateToProps = ({ user: { currentUser }, cart: { hidden } }) => ({
+  currentUser,
+  hidden
+});
 
 export default connect(mapStateToProps)(Header);
